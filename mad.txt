@@ -1,0 +1,1010 @@
+1. hello world:
+import 'package:flutter/material.dart';
+void main() {
+runApp(const HelloWorld());
+}
+class HelloWorld extends StatelessWidget
+{ const HelloWorld({Key? key}) : super(key:
+key);
+@override
+Widget build(BuildContext context) {
+// Material App
+return MaterialApp(
+// Scaffold Widget
+home: Scaffold( appBar:
+AppBar(
+// AppBar takes a Text Widget
+// in it's title parameter
+),
+body: const Center(child: Text('Hello World')),
+));
+}
+}
+
+2.increment & decrement:
+import 'package:flutter/material.dart';
+void main() => runApp(MyApp());
+class MyApp extends StatelessWidget {
+@override
+Widget build(BuildContext context)
+{ return MaterialApp(
+title: 'Flutter Demo',
+debugShowCheckedModeBanner: false,
+theme:
+ThemeData( primarySwatch:
+Colors.blue,
+),
+);
+}
+}
+class MyHomePage extends StatefulWidget {
+final String title;
+const
+MyHomePage({ Ke
+y? key, required
+this.title, }) :
+super(key: key);
+@override
+State<MyHomePage> createState() => _MyHomePageState(); }
+class _MyHomePageState extends State<MyHomePage>
+{ int _counter = 0;
+void _incrementCounter()
+{ setState(()
+{ _counter++;
+});
+home: const MyHomePage(title: 'Shivaji Phatak '),
+
+}
+void _decrementCounter()
+{ setState(() {
+_counter--;
+});
+}
+void _multiplyby2Counter()
+{ setState(() { _counter
+= _counter * 2;
+});
+}
+@override
+Widget build(BuildContext context) {
+return
+Scaffold( appBar:
+AppBar(
+title: Text(widget.title),
+),
+body: Center(
+child: Column(
+mainAxisAlignment: MainAxisAlignment.spaceAround,
+children: [ const Text(
+'You have pushed the button this many times:',
+),
+Text(
+'$_counter',
+style: Theme.of(context).textTheme.headlineMedium,
+),
+FloatingActionButton( onPress
+ed: _incrementCounter, tooltip:
+'Increment', child: const
+Icon(Icons.add),
+),
+FloatingActionButton( onPresse
+d: _decrementCounter, tooltip:
+'decrement', child: const
+Icon(Icons.remove),
+),
+FloatingActionButton( onPressed:
+_multiplyby2Counter,
+tooltip: 'multiply',
+child: const Icon(Icons.multiline_chart_outlined),
+),
+],
+),
+),
+
+);
+}
+}
+
+3.application form:
+import 'package:flutter/material.dart';
+void main() => runApp(const MyApp());
+class MyApp extends StatelessWidget {
+const MyApp({super.key});
+@override
+Widget build(BuildContext context) {
+
+return
+MaterialApp( title:
+appTitle, home:
+Scaffold( appBar:
+AppBar(
+title: const Text(appTitle),
+),
+body: const MyCustomForm(),
+),
+);
+}
+}
+// Create a Form widget.
+class MyCustomForm extends StatefulWidget {
+const MyCustomForm({super.key});
+@override
+MyCustomFormState createState() {
+return MyCustomFormState();
+}
+}
+// Create a corresponding State class.
+// This class holds data related to the form.
+class MyCustomFormState extends State<MyCustomForm>
+{ // Create a global key that uniquely identifies the Form
+widget // and allows validation of the form.
+//
+// Note: This is a GlobalKey<FormState>,
+// not a GlobalKey<MyCustomFormState>.
+final _formKey = GlobalKey<FormState>();
+@override
+Widget build(BuildContext context) {
+// Build a Form widget using the _formKey created above.
+const appTitle = 'Shivaji Phatak ';
+
+return
+Form( key:
+_formKey, child:
+Column(
+crossAxisAlignment: CrossAxisAlignment.start,
+children: [
+TextFormField( decoration:
+InputDecoration( enabledB
+order: OutlineInputBorder(
+
+borderSide: BorderSide(width: 3, color: Colors.blueAccent),
+borderRadius: BorderRadius.circular(50.0)), hintText: 'Enter
+your full name', labelText: 'Name',
+),
+// The validator receives the text that the user has entered.
+validator: (value) { if (value == null || value.isEmpty) {
+return 'Please enter some text';
+}
+return null;
+},
+),
+TextFormField(
+decoration:
+InputDecoration( enabledBorder:
+OutlineInputBorder(
+
+borderSide: BorderSide(width: 3, color: Colors.blueAccent),
+
+borderRadius: BorderRadius.circular(50.0)),
+hintText: 'Enter your email',
+labelText: 'Email',
+),
+validator: (value) { if (value
+== null || value.isEmpty) {
+return 'Please enter correct email';
+}
+if (value == null ||
+value.isEmpty ||
+
+!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-
+
+9]+\.[azA-Z]+")
+
+.hasMatch(value)) {
+return 'Enter a valid email!';
+}
+return null;
+},
+),
+TextFormField(
+decoration: InputDecoration( enabledBorder:
+OutlineInputBorder( borderSide: BorderSide(width: 3, color:
+
+Colors.blueAccent), borderRadius:
+BorderRadius.circular(50.0)), hintText: 'Enter a phone number',
+labelText: 'Phone',
+),
+validator: (value)
+{ if (value == null ||
+value.isEmpty ||
+
+!RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)').hasMatch(value))
+
+{ return 'Please enter valid phone number';
+}
+return null;
+},
+),
+Padding(
+padding: const EdgeInsets.symmetric(vertical: 16.0),
+child: ElevatedButton( onPressed: () {
+// Validate returns true if the form is valid, or false otherwise.
+if (_formKey.currentState!.validate()) {
+
+// If the form is valid, display a snackbar. In the real world,
+// you'd often call a server or save the information in a database.
+ScaffoldMessenger.of(context).showSnackBar( const
+SnackBar(content: Text('Processing Data')),
+
+);
+}
+},
+child: const Text('Submit'),
+),
+),
+],
+),
+);
+
+4.State management using bloc and provider:
+Provider:
+main.dart
+import 'dart:developer';
+import 'package:flutter/material.dart'; import
+'model.dart';
+import "package:provider/provider.dart";
+void main() {
+
+runApp(ChangeNotifierProvider( crea
+te: ((context) {
+return Counter_Model();
+}),
+child:const DemoPage()))
+;
+}
+class DemoPage extends StatelessWidget
+{ const DemoPage();
+@override
+Widget build(BuildContext context)
+{ return MaterialApp(
+theme: ThemeData.from(colorScheme: const ColorScheme.light()),
+home: const DemoPageChild());
+}
+}
+class DemoPageChild extends StatelessWidget
+{ const DemoPageChild();
+@override
+Widget build(BuildContext context)
+{ return Scaffold(
+body:const DemoPageChildWidget() );
+} }
+class DemoPageChildWidget extends
+StatelessWidget{ const DemoPageChildWidget();
+@override
+Widget build(BuildContext context)
+{ return Padding(
+padding: EdgeInsets.only(top: 15.0),
+child: Row(children:
+[ Expanded( child:
+ElevatedButton(
+onPressed: () {
+context.read<Counter_Model>().increament();
+},
+child: const Text("+", textScaleFactor: 3),
+)),
+Expanded( chi
+ld: Center(
+
+child: const ShowCounter()
+
+)
+),
+Expanded(
+child:
+ElevatedButton( onPressed: ()
+{ context.read<Counter_Model
+>()
+
+.decrement();
+}, child:
+
+const Text(
+textScaleFactor: 3,
+)))
+]));
+}
+
+}
+class ShowCounter extends
+StatelessWidget{ const ShowCounter();
+@override
+Widget build(BuildContext context)
+{ return Text(
+context.watch<Counter_Model>()
+.counter
+.toString(),
+textScaleFactor: 3);
+
+}}
+model.dart
+import 'package:flutter/material.dart';
+class Counter_Model with ChangeNotifier{
+int _counter=0; int get
+counter=>_counter;
+void increament()
+{
+_counter++;
+notifyListeners();
+}
+void decrement()
+
+"Shivaji Phatak",
+
+{ _counter-
+-;
+notifyListeners();
+}
+
+}
+Using bloc:
+import 'package:flutter/material.dart'; import
+'bloc.dart';
+void main() {
+runApp(BlocProvider<CounterBloc>(create:
+(context)=>CounterBloc(),child:MaterialApp( debugShowCheckedModeBanner: false,
+title: "Bloc Counter", home: Scaffold(
+body: counter_body(),
+),
+)));
+}
+class counter_body extends StatelessWidget {
+@override
+Widget build(BuildContext context)
+{ return Center(
+child: Row(children:
+<Widget>[ Expanded(
+child:
+ElevatedButton( onPresse
+d: () {
+
+BlocProvider.of<CounterBloc>(context).add(Increment());
+//below line also works instead of above line
+//context.read<CounterBloc>().add(Increment());
+},
+child:
+Text( "+",
+textScaleFactor: 4,
+),
+style:
+
+ElevatedButton.styleFrom( fixed
+Size: const Size(240, 80)))),
+Expanded( child: Center(
+appBar: AppBar(title: Text("Shivaji Phatak")),
+
+child:BlocBuilder<CounterBloc,int>(builder: (context, count)
+
+{ return Text(
+
+'$count',textScaleFactor: 4,
+style: TextStyle(fontSize: 24.0),
+);}
+
+)
+)),
+Expanded( child:
+ElevatedButton(
+onPressed: () {
+BlocProvider.of<CounterBloc>(context).add(Decrement());
+//below line also works instead of above line
+// context.read<CounterBloc>().add(Decrement());
+
+},
+child: Text(
+"-",
+textScaleFactor: 4,
+),
+style: ElevatedButton.styleFrom(
+fixedSize: const Size(240, 80))))
+]));
+}
+}
+abstract class CounterEvent {}
+class Increment extends CounterEvent {}
+class Decrement extends CounterEvent {}
+class CounterBloc extends Bloc<CounterEvent, int> {
+void onChange(Change<int> change) //overriding function executed when there is a change
+{
+debugPrint("$change");
+super.onChange(change);
+}
+
+CounterBloc() : super(0)
+{ on<Increment>((event, emit) => emit(state +
+1)); on<Decrement>((event, emit) => emit(state -
+1));
+} }
+
+5. animation in flutter:
+import 'dart:math';
+
+import 'package:flutter/material.dart';
+void main()
+{ runApp(MaterialApp( h
+ome: Scaffold(
+body: Center(child: tween_color()),
+),
+));
+}
+class tween_color extends StatefulWidget {
+@override
+State<StatefulWidget> createState()
+{ return tween_colorState();
+}
+}
+class tween_colorState extends State<tween_color>
+with TickerProviderStateMixin { late final
+AnimationController _controller;
+late final Animation<Color> _tween_color;
+void initState()
+{ super.initState();
+_controller =
+AnimationController(duration: Duration(seconds: 9), vsync: this)
+..reverse();
+_tween_color = Tween<Color>(begin: Colors.black, end:
+Colors.amberAccent) .animate(_controller);
+}
+void dispose()
+{ _controller.dispose();
+super.dispose();
+}
+@override
+Widget build(BuildContext context) {
+int i = 0xff4caf50;
+return
+AnimatedBuilder( ani
+mation: _controller,
+builder: (_, __) {
+debugPrint("${_tween_color.value}");
+return ElevatedButton( child: const
+Text("Animate me!"), style:
+
+ElevatedButton.styleFrom( primary:
+_tween_color.value,
+), //
+onPressed: () {
+if (_controller.status == AnimationStatus.dismissed) {
+_controller.forward();
+// debugPrint("if");
+} else {
+//debugPrint("else ${_controller.status}");
+_controller.reverse();
+}
+// Color(0xfff44336))" and "MaterialColor(primary value: Color(0xff4caf50))"
+},
+);
+},
+);
+}
+}
+
+6. illustrate explain routing, passing data using navigator and
+navigation
+import 'package:flutter/material.dart';
+
+import "dart:math";
+class homePage extends StatelessWidget
+{ const homePage();
+@override
+Widget build(BuildContext context) {
+return
+Scaffold( body:
+Center( child:
+ElevatedButton(
+child: Text("click on the button to see next page"),
+onPressed: () {
+Navigator.of(context).pushNamed(RouteGenerator.randompage);
+},
+),
+));
+}
+}
+void main() {
+runApp(const RandomApp());
+}
+class RandomApp extends StatelessWidget
+{ const RandomApp();
+@override
+Widget build(BuildContext context) { return
+MaterialApp( onGenerateTitle: (_) => "Random
+App", initialRoute: RouteGenerator.homepage,
+onGenerateRoute: RouteGenerator.generateRoute,
+);
+}
+}
+class randomPage extends StatelessWidget
+{ const randomPage();
+@override
+Widget build(BuildContext context) {
+return
+Scaffold( body:
+Center(
+child: Text("${Random().nextInt(50)}"),
+),
+);
+}
+}
+class RouteGenerator { static const String
+homepage = '/'; static const String
+randompage = '/random';
+RouteGenerator._() {}
+
+static Route<dynamic> generateRoute(RouteSettings settings) {
+switch (settings.name)
+{ case homepage:
+{
+return MaterialPageRoute(builder: (_) => const homePage());
+}
+case randompage:
+{
+return MaterialPageRoute(builder: (_) => const randomPage());
+}
+default:
+{
+throw FormatException("Route not found");
+}
+}
+}
+}
+class RouteException implements Exception {
+final String message;
+const RouteException(this.message);
+}
+Passing Data using Navigator
+import 'package:flutter/material.dart';
+void main()
+{ runApp(const Myapp());
+}
+class Details_of_List extends StatelessWidget
+{ final Todo item;
+const Details_of_List(this.item);
+@override
+Widget build(BuildContext context) {
+return Scaffold(
+body:
+Center( child:
+Text(
+"${item.title}\n${item.description}",
+textScaleFactor: 4,
+)));
+;
+}
+}
+appBar: AppBar(title: Text("Shivaji Phatak")),
+
+class HomePage extends StatelessWidget
+{ HomePage(); final List<Todo>
+todolist = [ const Todo("title 1", "this is
+the title 1"), const Todo("title 2", "this is
+the title 2"), const Todo("title 3", "this is
+the title 3"),
+const Todo("title 4", "this is the title 4")
+];
+void _itemPressed(BuildContext context, Todo item) {
+Navigator.of(context)
+.push(MaterialPageRoute(builder: (_) => Details_of_List(item)));
+}
+@override
+Widget build(BuildContext context) {
+return Scaffold(
+body: ListView.builder( itemCount:
+todolist.length, itemBuilder: (context, value)
+{
+return ListTile(
+title: Text(todolist[value].title, textScaleFactor: 2),
+subtitle: Text(todolist[value].description, textScaleFactor: 2),
+onTap: () {
+_itemPressed(context,
+Todo(todolist[value].title, todolist[value].description));
+},
+);
+},
+));
+}
+}
+class Myapp extends StatelessWidget
+{ const Myapp();
+@override
+Widget build(BuildContext context)
+{ return MaterialApp(
+onGenerateTitle: (_) => 'Passing data with Navigator',
+initialRoute: RouteGenerator.homepage,
+onGenerateRoute: RouteGenerator.generateRoute,
+); }
+}
+class Todo {
+appBar: AppBar(title: Text("Shivaji Phatak")),
+
+final String title; final
+String description;
+const Todo(this.title,
+this.description);
+}
+class RouteGenerator { static
+const String homepage = '/';
+static const String details_of_list = '/details_of_list';
+RouteGenerator._() {}
+static Route<dynamic> generateRoute(RouteSettings settings) {
+switch (settings.name)
+{ case homepage:
+{
+return MaterialPageRoute(builder: (_) => HomePage());
+}
+default:
+{
+throw FormatException("Route not found");
+}
+}
+}
+}
+class RouteException implements Exception {
+final String message;
+const RouteException(this.message);
+}
+Navigation Rail
+import 'package:flutter/material.dart'; import
+'package:provider/provider.dart';
+void main()
+{ runApp(ChangeNotifierProvider<IndexProvider>( c
+reate: (_) => IndexProvider(), child: MyApp()));
+}
+class MyApp extends StatelessWidget {
+@override
+Widget build(BuildContext context) { return
+MaterialApp( home: Scaffold( appBar:
+AppBar(title: Text("BottomNavigation Bar")),
+bottomNavigationBar: Buttomnavigation()));
+}
+}
+
+class Buttomnavigation extends StatelessWidget {
+@override
+Widget build(BuildContext context) {
+return Consumer<IndexProvider>(builder: (context, IP, _)
+{ return BottomNavigationBar( currentIndex:
+IP.index,
+selectedItemColor: Colors.green,
+onTap: (int itemnumber)
+{ IP.set_index(itemnumber);
+},
+items: [
+BottomNavigationBarItem(
+icon:
+Icon( Icons.home,
+color: Colors.red,
+),
+label: "Home"),
+BottomNavigationBarItem(
+icon: Icon(Icons.mail, color: Colors.red), label: "Mail"),
+BottomNavigationBarItem(
+icon: Icon(Icons.settings, color: Colors.red), label: "Setting"),
+BottomNavigationBarItem(
+icon: Icon(Icons.contacts, color: Colors.red),
+label: "Contact Us"),
+],
+); }
+);
+}
+}
+class IndexProvider with ChangeNotifier {
+int index = 1; void
+set_index(int value)
+{ index = value;
+notifyListeners();
+debugPrint("value is updated $value");
+}
+int get_index()
+{ return index;
+}
+}
+
+7. hello world PWA:
+To do this, create a file named index.html in your project root folder and add the
+following markup:
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hello World</title>
+<link rel="stylesheet" href="css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<body class="fullscreen">
+<div class="container">
+<h1 class="title">Hello World!</h1>
+</div>
+</body>
+</html>
+2. Next, create a file named style.css in the css folder and add this code:
+body {
+font-family: sans-serif;
+}
+/* Make content area fill the entire browser window */
+html, .fullscreen { display: flex; height: 100%;
+margin: 0;
+padding: 0; width:
+100%;
+}
+/* Center the content in the browser window */
+
+.container
+{ margin: auto;
+text-align: center;
+}
+.title {
+font-size: 3rem;
+}
+3. You can now test the app by clicking on the preview button in Brackets. (The lightning
+bolt in the upper right-hand corner.) This will open a Chrome window and serve up your
+page.
+4. Press F12 to open the developer panel in Chrome and click on the audits tab to open
+Lighthouse.
+5. Create a file named sw.js in your root folder and enter the contents of the script below.
+var cacheName = 'hello-pwa'; var filesToCache = [
+'/',
+'/index.html',
+'/css/style.css',
+'/js/main.js'
+];
+/* Start the service worker and cache all of the app's content */
+self.addEventListener('install', function(e)
+{ e.waitUntil( caches.open(cacheName).then(function(cac
+he) {
+return cache.addAll(filesToCache);
+})
+);
+});
+/* Serve cached content when offline */
+self.addEventListener('fetch', function(e)
+{ e.respondWith( caches.match(e.request).then(functio
+n(response) {
+return response || fetch(e.request);
+})
+);
+});
+6. Create a file named main.js in the js folder and enter the following code: window.onload
+= () => {
+'use strict';
+if ('serviceWorker' in navigator) {
+
+navigator.serviceWorker
+.register('./sw.js');
+}
+}
+7. The revised index.html should look like this:
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hello World</title>
+<link rel="stylesheet" href="css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body class="fullscreen">
+<div class="container">
+<h1 class="title">Hello World!</h1>
+</div>
+<script src="js/main.js"></script>
+</body>
+</html>
+
+8. register service worker:
+index.html
+<!DOCTYPE html>
+An image will appear here in 3 seconds:
+<script>
+navigator.serviceWorker.register('/sw.js') .then(re
+g => console.log('SW registered!', reg))
+.catch(err => console.log('Boo!', err));
+setTimeout(() =>
+{ const img = new
+Image();
+img.src = '/dog.svg';
+document.body.appendChild(img);
+}, 3000);
+</script>
+
+sw.js
+self.addEventListener('install', event =>
+{ console.log('V1 installing...');
+// cache a cat SVG
+event.waitUntil( caches.open('stat
+ic-v1').then(cache =>
+cache.add('/cat.svg'))
+);
+});
+self.addEventListener('activate', event =>
+{ console.log('V1 now ready to handle fetches!');
+});
+self.addEventListener('fetch', event => {
+const url = new URL(event.request.url);
+// serve the cat SVG from the cache if the request is
+// same-origin and the path is '/dog.svg'
+if (url.origin == location.origin && url.pathname == '/dog.svg')
+{ event.respondWith(caches.match('/cat.svg'));
+}
+});
+Let's say we changed our service worker script to respond with a picture of a horse rather
+than a cat: const expectedCaches = ['static-v2'];
+self.addEventListener('install', event =>
+{ console.log('V2 installing...');
+// cache a horse SVG into a new cache, static-v2
+event.waitUntil(
+caches.open('static-v2').then(cache => cache.add('/horse.svg'))
+);
+});
+self.addEventListener('activate', event => { //
+delete any caches that aren't in expectedCaches
+// which will get rid of static-v1
+event.waitUntil(
+caches.keys().then(keys =>
+Promise.all( keys.map(key => {
+if (!expectedCaches.includes(key)) {
+return caches.delete(key);
+}
+})
+
+)).then(() => {
+console.log('V2 now ready to handle fetches!');
+}) )
+;
+});
+self.addEventListener('fetch', event => {
+const url = new URL(event.request.url);
+// serve the horse SVG from the cache if the request is
+// same-origin and the path is '/dog.svg'
+if (url.origin == location.origin && url.pathname == '/dog.svg')
+{ event.respondWith(caches.match('/horse.svg'));
+}
+});
+Handling updates
+navigator.serviceWorker.register('/sw.js').then(reg =>
+{ reg.installing; // the installing worker, or undefined
+reg.waiting; // the waiting worker, or undefined
+reg.active; // the active worker, or undefined
+reg.addEventListener('updatefound', () => {
+// A wild service worker has appeared in reg.installing!
+const newWorker = reg.installing;
+newWorker.state;
+// "installing" - the install event has fired, but not yet complete
+// "installed" - install complete
+// "activating" - the activate event has fired, but not yet complete
+// "activated" - fully active
+// "redundant" - discarded. Either failed install, or it's been
+// replaced by a newer version
+newWorker.addEventListener('statechange', () => {
+// newWorker.state has changed
+});
+});
+});
+navigator.serviceWorker.addEventListener('controllerchange', () => {
+// This fires when the service worker controlling this page //
+changes, eg a new worker has skipped waiting and become
+// the new active worker.
+});
+
+9.events like fetch, sync and push for E-commerce PWA.:
+Fetch Event
+self.addEventListener('fetch', function(event)
+{ event.respondWith(
+caches.match(event.request)
+.then(function(respons
+e) { if (response) {
+return response;
+}
+return fetch(event.request);
+}
+)
+);
+});
+
+Background Sync
+// Register your service worker:
+navigator.serviceWorker.register('/sw.js');
+// Then later, request a one-off sync:
+navigator.serviceWorker.ready.then(function(swRegistration) {
+return swRegistration.sync.register('myFirstSync'); });
+self.addEventListener('sync',
+function(event) { if (event.tag ==
+'myFirstSync') { event.waitUntil(doSomeStuff());
+}
+});
+Push Event
+self.addEventListener(
+"push", (event)
+=> {
+let message = event.data.json();
+switch (message.type) { case
+"init": doInit(); break; case
+"shutdown": doShutdown();
+break; } }, false
+);
+
+10.fetch, sync and push for E-commerce PWA.:
+Changing the index.html
+The first thing you need to do change is the index.html document. You need two things for
+this. Your GitHub username, for example in this case codepo8 and the name of the
+repository you host as a GitHub Page, in this case github-page-pwa.
+The current index.html has these settings already, and you need to change them accordingly.
+In the following example, each codepo8 needs to become yours and github-page-pwa
+the name of your repository. Make sure to not remove any /, as they are crucial for this
+to work.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub page as PWA template</title>
+<link rel="canonical" href="https://codepo8.github.io/github-page-pwa/" />
+<link rel="manifest" href="/github-page-pwa/manifest.webmanifest">
+</head>
+<body>
+<h1>GitHub page as PWA template</h1>
+...
+<script> if
+(navigator.serviceWorker) {
+navigator.serviceWorker.regi
+ster (
+'/github-page-pwa/sw.js',
+{scope: '/github-page-pwa/'}
+)
+}
+</script>
+</body>
+</html>
+Changing the service worker to make your site available offline
+The sw.js file is the ServiceWorker that defines which of the files in your application
+should become available offline. Again you need to change some settings to your
+needs.
+// Change this to your
+repository name var GHPATH =
+'/github-page-pwa';
+// Choose a different app
+prefix name var APP_PREFIX =
+'gppwa_';
+// The version of the cache. Every time you change any of the files
+// you need to change this version (version_01, version_02...).
+// If you don't change the version, the service worker will give your
+// users the old files!
+
+var VERSION = 'version_00';
+// The files to make available for offline use. make sure to add
+// others to
+this list var
+URLS = [
+`${GHPATH}/`,
+`${GHPATH}/index.html`,
+`${GHPATH}/css/styles.css`,
+`${GHPATH}/js/app.js`
+]
+
+Changing the manifest to make your app installable
+The manifest.webmanifest file defines the name and look of the GitHub Page as an
+installable application. You need to change the names, description, URLs and link to the
+icon of the application to your needs. I added comments here as to what is what.
+{
+// Name of the app and short name in case there isn't
+enough space "name": "Github Page PWA", "short_name":
+"GPPWA",
+// Description what your app is
+"description": "Github Page as a Progressive Web App",
+// Scope and start URL - these need to change to yours
+"scope": "/github-page-pwa/",
+"start_url": "/github-page-pwa/",
+// colours of the app as displayed in the
+installer "background_color": "#ffffff",
+"theme_color": "#ffffff",
+// Display of the app.
+//This could be "standalone", "fullscreen", "minimal-ui" or
+"browser" "display": "standalone",
+// The possible icons to display. Make sure to change the src URL, //
+the type and the size to your needs. If the size isn't correct,
+// you may not be able to install the
+app. "icons": [
+{
+"src": "/github-pagepwa/img/icon.png",
+"type":
+"image/png",
+"sizes": "700x700"
+}
+]
+}
